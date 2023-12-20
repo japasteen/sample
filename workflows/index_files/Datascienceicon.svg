@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="57.929" height="57.929" viewBox="0 0 57.929 57.929">
-  <g id="Layer_1" transform="translate(-1 -1)">
-    <rect id="Rectangle_5410" data-name="Rectangle 5410" width="2" height="3" transform="translate(7 8)" fill="#000002"/>
-    <rect id="Rectangle_5411" data-name="Rectangle 5411" width="23" height="3" transform="translate(13 8)" fill="#000002"/>
-    <rect id="Rectangle_5412" data-name="Rectangle 5412" width="2" height="2" transform="translate(7 23)" fill="#000002"/>
-    <rect id="Rectangle_5413" data-name="Rectangle 5413" width="2" height="3" transform="translate(7 37)" fill="#000002"/>
-    <path id="Path_10495" data-name="Path 10495" d="M53.113,45.935l-6.253-15V27.551h6.034V20.31H46.86V11.862H42.033V1H1V46.86H29.465l3.621,3.621H22.723v8.448H58.929V50.481H48.567ZM50.481,22.723v2.414H31.171V22.723h19.31Zm-6.034-8.448V20.31H37.206V14.275h7.241ZM3.414,3.414H39.619v8.448H34.792v3.621H3.414Zm0,14.482H34.792V20.31H28.758v2.414H13.069v2.414H28.758v2.414h6.034v2.414H3.414Zm0,14.482H34.188l-2.012,4.827H13.069v2.414h18.1l-2.012,4.827H3.414ZM31.39,45.372l5.816-13.96V27.551h7.241v3.862l5.816,13.958-5.109,5.11H36.5Zm25.125,7.522v3.621H25.137V52.895H56.515Z" transform="translate(0 0)" fill="#000002"/>
-  </g>
-</svg>
