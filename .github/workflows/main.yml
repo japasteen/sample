@@ -27,13 +27,16 @@ jobs:
       id: list-objects
       run: |
         OBJECTS=$(aws s3api list-objects --bucket cd-corp-website-dev --query 'Contents[].Key' --output json)
+        echo "List of objects: $OBJECTS"
         echo "::set-output name=objects::$OBJECTS"
 
     - name: Generate pre-signed URLs
       id: presigned-urls
       run: |
         OBJECTS=(${{ steps.list-objects.outputs.objects }})
+        echo "Number of objects: ${#OBJECTS[@]}"
         for OBJECT in "${OBJECTS[@]}"; do
+          echo "Processing object: $OBJECT"
           URL=$(aws s3 presign "s3://cd-corp-website-dev/$OBJECT" --expires-in 3600)
           echo "::set-output name=url::$URL"
         done
