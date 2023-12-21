@@ -20,6 +20,10 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1  # Change this to your desired AWS region
 
+    - name: Ensure index_files directory exists
+      run: |
+        mkdir -p index_files
+
     # - name: Generate pre-signed URL
     #   id: presigned-url
     #   run: |
