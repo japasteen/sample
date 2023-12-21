@@ -30,7 +30,7 @@ jobs:
         echo "::set-output name=url::$URL"
 
     - name: Deploy to S3
-      run: |
+      run: 
         aws s3 sync index_files/ s3://cd-corp-website-dev/ --acl private
         aws s3 cp index.html s3://cd-corp-website-dev/ --acl private
       env:
