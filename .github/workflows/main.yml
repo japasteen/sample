@@ -23,21 +23,26 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1  # Change this to your desired AWS region
 
-    - name: Generate pre-signed URL
-      id: presigned-url
+    - name: List S3 objects
+      id: list-objects
       run: |
-        URL=$(aws s3 presign s3://cd-corp-website-dev/ --recursive --expires-in 3600)
-        echo "::set-output name=url::$URL"
+        OBJECTS=$(aws s3api list-objects --bucket cd-corp-website-dev --query 'Contents[].Key' --output json)
+        echo "::set-output name=objects::$OBJECTS"
+
+    - name: Generate pre-signed URLs
+      id: presigned-urls
+      run: |
+        OBJECTS=(${{ steps.list-objects.outputs.objects }})
+        for OBJECT in "${OBJECTS[@]}"; do
+          URL=$(aws s3 presign "s3://cd-corp-website-dev/$OBJECT" --expires-in 3600)
+          echo "::set-output name=url::$URL"
+        done
 
     - name: Deploy to S3
       run: |
-        aws s3 sync index_files/ s3://cd-corp-website-dev/ --acl private
-        aws s3 cp index.html s3://cd-corp-website-dev/ --acl private
+        OBJECTS=(${{ steps.list-objects.outputs.objects }})
+        for OBJECT in "${OBJECTS[@]}"; do
+          aws s3 cp "index_files/$OBJECT" "s3://cd-corp-website-dev/$OBJECT" --acl private
+        done
       env:
         AWS_DEFAULT_REGION: us-east-1  # Change this to your desired AWS region
-
-    # - name: Create CloudFront Invalidation
-    #   run: |
-    #     aws cloudfront create-invalidation --distribution-id EDDSFEGI0QHBB --paths '/*'
-    #   env:
-    #     AWS_DEFAULT_REGION: us-east-1  # Change this to your desired AWS region
