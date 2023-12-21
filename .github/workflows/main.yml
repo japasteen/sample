@@ -23,13 +23,13 @@ jobs:
     # - name: Generate pre-signed URL
     #   id: presigned-url
     #   run: |
-    #     URL=$(aws s3 presign s3://your-bucket-name/ --recursive --expires-in 3600)
+    #     URL=$(aws s3 presign s3://cd-corp-website-dev/ --recursive --expires-in 3600)
     #     echo "::set-output name=url::$URL"
 
     - name: Deploy to S3
       run: |
-        aws s3 sync cd-website/ s3://your-bucket-name/ --acl private
-        aws s3 cp index.html s3://your-bucket-name/ --acl private
+        aws s3 sync cd-website/ s3://cd-corp-website-dev/ --acl private
+        aws s3 cp index.html s3://cd-corp-website-dev/ --acl private
       env:
         AWS_DEFAULT_REGION: us-east-1  # Change this to your desired AWS region
 
