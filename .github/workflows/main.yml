@@ -12,32 +12,39 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
-      with:
-        node-version: '16'
-        
+
     - name: Set up AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        node-version: '16'
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1  # Change this to your desired AWS region
 
-    - name: Generate pre-signed URL
-      id: presigned-url
+    - name: Ensure index_files directory exists
       run: |
-        URL=$(aws s3 presign s3://cd-corp-website-dev/ --recursive --expires-in 3600)
-        echo "::set-output name=url::$URL"
+        mkdir -p index_files
+
+    # - name: Generate pre-signed URL
+    #   id: presigned-url
+    #   run: |
+    #     URL=$(aws s3 presign s3://cd-corp-website-dev/ --recursive --expires-in 3600)
+    #     echo "::set-output name=url::$URL"
 
     - name: Deploy to S3
+<<<<<<< HEAD
       run: 
         aws s3 sync index_files/ s3://cd-corp-website-dev/ --acl private
+=======
+      run: |
+        aws s3 cp --recursive index_files/ s3://cd-corp-website-dev/index_files
+>>>>>>> 66e3194d85c0b47712dfdd16812ade93628c79e0
         aws s3 cp index.html s3://cd-corp-website-dev/ --acl private
       env:
         AWS_DEFAULT_REGION: us-east-1  # Change this to your desired AWS region
 
-    # - name: Create CloudFront Invalidation
-    #   run: |
-    #     aws cloudfront create-invalidation --distribution-id EDDSFEGI0QHBB --paths '/*'
-    #   env:
-    #     AWS_DEFAULT_REGION: us-east-1  # Change this to your desired AWS region
+    - name: Create CloudFront Invalidation
+      run: |
+        aws cloudfront create-invalidation --distribution-id EDDSFEGI0QHBB --paths '/*'
+      env:
+        AWS_DEFAULT_REGION: us-east-1  # Change this to your desired AWS region
+
