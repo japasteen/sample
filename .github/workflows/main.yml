@@ -19,7 +19,11 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1  # Change this to your desired AWS region
-
+        aws_region: us-east-1
+        flags: --recursive
+        command: cp
+        SOURCE_DIR: ./folder1/
+        destination: s3://bucket/folder1/
     - name: Ensure index_files directory exists
       run: |
         mkdir -p index_files
@@ -31,12 +35,14 @@ jobs:
     #     echo "::set-output name=url::$URL"
 
     - name: Deploy to S3
-      run: 
-        aws s3 sync index_files/ s3://cd-corp-website-dev/ --acl private
-        aws s3 cp index.html s3://cd-corp-website-dev/ --acl private
-      env:
-        AWS_DEFAULT_REGION: us-east-1  # Change this to your desired AWS region
-
+      uses: prewk/s3-cp-action@v2
+      with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        source: 's3://cd-corp-website-dev/'
+        dest: './index_files/'
+        flags: --recursive
+     
     - name: Create CloudFront Invalidation
       run: |
         aws cloudfront create-invalidation --distribution-id EDDSFEGI0QHBB --paths '/*'
