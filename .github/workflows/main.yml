@@ -31,13 +31,8 @@ jobs:
     #     echo "::set-output name=url::$URL"
 
     - name: Deploy to S3
-<<<<<<< HEAD
       run: 
         aws s3 sync index_files/ s3://cd-corp-website-dev/ --acl private
-=======
-      run: |
-        aws s3 cp --recursive index_files/ s3://cd-corp-website-dev/index_files
->>>>>>> 66e3194d85c0b47712dfdd16812ade93628c79e0
         aws s3 cp index.html s3://cd-corp-website-dev/ --acl private
       env:
         AWS_DEFAULT_REGION: us-east-1  # Change this to your desired AWS region
