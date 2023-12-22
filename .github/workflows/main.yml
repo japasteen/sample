@@ -40,9 +40,8 @@ jobs:
         aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         dest: 's3://cd-corp-website-dev/'
-        source: './index.html'
+        source: '.\index.html'
         # flags: --recursive
-
     - name: Create CloudFront Invalidation
       run: |
         aws cloudfront create-invalidation --distribution-id E1B3CJVJ1KYPXJ --paths '/*'
