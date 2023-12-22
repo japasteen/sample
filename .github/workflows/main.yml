@@ -45,7 +45,6 @@ jobs:
      
     - name: Create CloudFront Invalidation
       run: |
-        aws cloudfront create-invalidation --distribution-id EDDSFEGI0QHBB --paths '/*'
+        aws cloudfront create-invalidation --distribution-id E1B3CJVJ1KYPXJ --paths '/*'
       env:
         AWS_DEFAULT_REGION: us-east-1  # Change this to your desired AWS region
-
