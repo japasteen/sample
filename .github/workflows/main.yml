@@ -20,9 +20,19 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1  # Change this to your desired AWS region
 
-    - name: Ensure index_files directory exists
+    # - name: Ensure index_files directory exists
+    #   run: |
+    #     mkdir -p index_files
+
+    - name: s3 deploy directory
       run: |
-        mkdir -p index_files
+        aws s3 cp --recursive index_files/ s3://cd-corp-website-dev/index_files 
+
+    - name: s3 deploy index
+      run: |
+        aws s3 cp index.html s3://cd-corp-website-dev/ --acl private
+        
+
 
     # - name: Generate pre-signed URL
     #   id: presigned-url
@@ -30,16 +40,8 @@ jobs:
     #     URL=$(aws s3 presign s3://cd-corp-website-dev/ --recursive --expires-in 3600)
     #     echo "::set-output name=url::$URL"
 
-    # - name: Deploy to S3
-    #   uses: prewk/s3-cp-action@v2
-    #   with:
-    #     aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    #     dest: 's3://cd-corp-website-dev/'
-    #     source: '.index.html'
-    #     # flags: --recursive
-    - name: Create CloudFront Invalidation
-      run: |
-        aws cloudfront create-invalidation --distribution-id E1B3CJVJ1KYPXJ --paths '/*'
-      env:
-        AWS_DEFAULT_REGION: us-east-1  # Change this to your desired AWS region
+    # - name: Create CloudFront Invalidation
+    #   run: |
+    #     aws cloudfront create-invalidation --distribution-id E1B3CJVJ1KYPXJ --paths '/*'
+    #   env:
+    #     AWS_DEFAULT_REGION: us-east-1  # Change this to your desired AWS region
